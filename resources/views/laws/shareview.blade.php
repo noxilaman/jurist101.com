@@ -1,0 +1,227 @@
+{{-- @extends('layouts.theme2') --}}
+@extends('layouts.themenonavshare')
+@push('style')
+    <style>
+        .card-content {
+            position: relative;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .bookmark-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: transparent;
+            border: none;
+            color: #e6c400;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .bookmark-btn:hover {
+            color: #e6c400;
+        }
+    </style>
+@endpush
+@section('content')
+    <div class="law-content-text">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="masonry-item col-md-12">
+                    <div class="card p-4" id="mainlaw">
+                        <a href="{{ url('/') }}" class="brand-link">
+                    <img src="{{ asset('jurist-logo.png') }}" alt="JURIST 101"
+                        class="brand-image img-circle elevation-1" style="opacity: .8">
+                    <span class="brand-text font-weight-light">JURIST 101</span>
+                </a>
+                        <h1 class="mb-3">กฎหมาย {{ $lawdata->mainlaw->name }} </h1>
+                        <h3 class="c-grey-900 mb-3">{{ $lawdata->c_name }} {{ $lawdata->short_name }}</h3>
+                        <div class="sharethis-inline-share-buttons"></div>
+
+                        <div class="tab-content" id="myTabContent" style="background-color: #ffffff; overflow-y: auto;">
+
+                            @php
+                                $keyword_highlighted = $lawdata->c_desc;
+
+                                // foreach ($keymaps as $keymap) {
+                                //     $text = strip_tags($keymap->desc);
+
+                                //     $keyword_highlighted = str_replace(
+                                //         $keymap->key,
+                                //         "<a style='color: #1454e8;' data-bs-toggle='tooltip' data-bs-placement='top' title='{$text}'>$keymap->key</a>",
+                                //         $keyword_highlighted,
+                                //     );
+                                // }
+                            @endphp
+
+
+                            <div class="tab-content m-2" id="nav-tabContent"
+                                style=" height: calc( 100vh - 200px); overflow-y: auto;">
+                                <div class="tab-pane fade show active" id="nav-all">
+                                    {{-- {!! $lawdata->c_desc !!}<br /> --}}
+                                    
+                                    {!! $keyword_highlighted !!}<br />
+
+                                    {{-- {!! $lawdata->c_comment !!} --}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
+    {{-- <script>
+        $(function() {
+
+
+            $('#btnsearch').on('click', function() {
+
+                document.location.href = '/searchact/' + $('#txtsearch').val();
+
+            });
+
+
+            //press enter on text area..
+
+            $('#txtsearch').keypress(function(e) {
+                var key = e.which;
+                console.log(key);
+                if (key == 13) // the enter key code
+                {
+                    document.location.href = '/searchact/' + $('#txtsearch').val();
+                }
+            });
+
+            $('.datacontent').on("mouseup", function() {
+                console.log('run');
+                console.log(getSelectionText());
+            });
+
+
+            highlightWordsnddescall();
+
+
+        });
+
+        function getSelectionText() {
+
+            var text = "";
+            if (window.getSelection) {
+                console.log(window.getSelection());
+                text = window.getSelection().toString();
+            } else if (document.selection && document.selection.type != "Control") {
+                text = document.selection.createRange().text;
+            }
+            return text;
+        }
+
+        function highlightWord() {
+            console.log('run');
+            const contentDiv = document.getElementById('datacontent');
+
+
+
+
+            const targetWord = '{{ request('keyword') }}';
+
+            // Get the content of the div
+
+
+
+            const content = contentDiv.innerText;
+
+            console.log(content);
+
+            const replaceText =
+                `<span style="background-color:yellow;" title="{{ request('keyword') }} {{ request('keyword') }} {{ request('keyword') }}">{{ request('keyword') }}</span>`;
+
+            // Split the content into an array of words
+
+            // Iterate through the words and add a span with the "highlight" class to the target word
+            const highlightedContent = content.replaceAll(targetWord, replaceText);
+
+            // Set the modified content back to the div
+            contentDiv.innerHTML = highlightedContent;
+        }
+
+        function highlightWordsnddesc(key, desc) {
+            console.log('run');
+            const contentDiv = document.getElementById('datacontent');
+
+
+
+
+            const targetWord = key;
+
+            // Get the content of the div
+
+
+
+            const content = contentDiv.innerText;
+
+            console.log(content);
+
+            const replaceText = `<span style="background-color:yellow;" title="${desc}">${targetWord}</span>`;
+
+            // Split the content into an array of words
+
+            // Iterate through the words and add a span with the "highlight" class to the target word
+            const highlightedContent = content.replaceAll(targetWord, replaceText);
+
+            // Set the modified content back to the div
+            contentDiv.innerHTML = highlightedContent;
+        }
+
+        function highlightWordsnddescall() {
+            console.log('run');
+            const contentDiv = document.getElementById('datacontent');
+
+            const keymapdata = {
+                @foreach ($keymaps as $item)
+                    '{{ $item->key }}': '{{ strip_tags($item->desc) }}',
+                @endforeach
+            };
+
+            let content = contentDiv.innerText;
+            let highlightedContent = contentDiv.innerText;
+            for (const [key, value] of Object.entries(keymapdata)) {
+
+                console.log(`${key}: ${value}`);
+                let replaceText = `<span style="background-color:yellow;" title="${value}">${key}</span>`;
+                highlightedContent = content.replaceAll(key, replaceText);
+                content = highlightedContent;
+            }
+            contentDiv.innerHTML = highlightedContent;
+
+
+            // const targetWord = key;
+
+            // Get the content of the div
+
+
+
+            //const content = contentDiv.innerText;
+
+            // console.log(content);
+
+            // const replaceText = `<span style="background-color:yellow;" title="${desc}">${targetWord}</span>`;
+
+            // Split the content into an array of words
+
+            // Iterate through the words and add a span with the "highlight" class to the target word
+            //   const highlightedContent = content.replaceAll(targetWord, replaceText);
+
+            // Set the modified content back to the div
+            //    contentDiv.innerHTML = highlightedContent;
+        }
+    </script> --}}
+@endsection

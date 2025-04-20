@@ -1,0 +1,102 @@
+body {
+    font-family: "Sarabun", serif;
+    /* font-weight: 200;
+    font-style: normal; */
+}
+
+.display-4 {
+    font-weight: 500;
+}
+
+.law-content-text {
+    font-size: 1.1rem;
+}
+
+#accordion .card-header {
+    background-color: transparent;
+    border-bottom: 1px solid rgba(0, 0, 0, .125);
+    padding: .5rem .5rem;
+    position: relative;
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+    cursor: pointer;
+}
+
+#accordion .card {
+    margin-bottom: 0;
+    border-bottom: 0;
+}
+
+.card {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    -ms-box-shadow: none;
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid #d2d2dc;
+    border-radius: 0;
+}
+
+.card-result .card-title {
+    margin-bottom: 1rem;
+}
+
+.card-result .card-description {
+    margin-bottom: 0.875rem;
+}
+
+.card .card-title {
+    color: #000000;
+    text-transform: capitalize;
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.card .card-description {
+    font-weight: 400;
+    color: #76838f;
+}
+
+.no-radius {
+    border-radius: 0 !important;
+}
+
+.table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+.table,
+.jsgrid .jsgrid-table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    background-color: transparent;
+}
+
+.table thead th,
+.jsgrid .jsgrid-table thead th {
+    border-top: 0;
+    border-bottom-width: 1px;
+    font-weight: 500;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+}
+
+.table td,
+.jsgrid .jsgrid-table td {
+    font-size: 1rem;
+    padding: 0.875rem 0.9375rem;
+}
