@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AppDatasController;
 use App\Http\Controllers\Api\LawDatasController;
-
+use App\Http\Controllers\Api\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,13 +17,21 @@ use App\Http\Controllers\Api\LawDatasController;
 |
 */
 
+//Route::get('chkAllApp',[AppDatasController::class,'chkAllApp']);
 
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware(['auth:api'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('auth:sanctum')->group(function () {
+
+Route::prefix('auth')->group(function () {
+    Route::post('/login', [AuthController::class, 'login']);
+
+    Route::middleware('auth.api')->group(function () {
+        Route::get('/me', [AuthController::class, 'me']);
+        Route::post('/logout', [AuthController::class, 'logout']);
+        Route::post('/refresh', [AuthController::class, 'refresh']);
+
     Route::get('chkAllApp',[AppDatasController::class,'chkAllApp']);
     Route::get('ListAllApp',[AppDatasController::class,'ListAllApp']);
     Route::get('chkAppVersion/{appid}',[AppDatasController::class,'chkAppVersion']);
@@ -31,6 +39,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('getAllLawCategory/{appid}',[LawDatasController::class,'getAllLawCategory']);
     Route::get('getDekaMap/{appid}',[LawDatasController::class,'getDekaMap']);
     Route::get('getDekaData/{appid}',[LawDatasController::class,'getDekaData']);
+
+    });
+
 });
-
-

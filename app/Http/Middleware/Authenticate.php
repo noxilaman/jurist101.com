@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use Illuminate\Support\Facades\Log;
 
 class Authenticate extends Middleware
 {
@@ -12,10 +13,24 @@ class Authenticate extends Middleware
      * @param  \Illuminate\Http\Request  $request
      * @return string|null
      */
+
+	// public function handle(Request $request, Closure $next)
+	// {
+//		 Log::info($request);
+//
+//		 return $next($request);
+//	 }
+
+
     protected function redirectTo($request)
     {
-        if (! $request->expectsJson()) {
-            return route('login');
+	      Log::info($request);
+    	// ถ้าเป็น API ขอให้ตอบ JSON แทน redirect
+	    if ($request->expectsJson()) {
+		    Log::info('Redirecting unauthenticated api user to login route.');
+            abort(response()->json(['error' => 'Unauthorized'], 401));
         }
+
+        return route('login'); // สำหรับ web redirect ปกติ
     }
 }

@@ -10,7 +10,9 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Auth\Authenticatable as AuthenticableTrait;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Laravel\Sanctum\HasApiTokens;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
  * Class User
@@ -36,10 +38,9 @@ use Laravel\Sanctum\HasApiTokens;
  * @package App\Models
  */
 
- class User extends Model implements Authenticatable
+ class User extends Model implements AuthenticatableContract, JWTSubject
  {
-	 use AuthenticableTrait,
-		 HasApiTokens;
+	 use HasApiTokens,AuthenticableTrait;
 	protected $table = 'users';
 
 	protected $casts = [
@@ -83,5 +84,15 @@ use Laravel\Sanctum\HasApiTokens;
 	public function role()
     {
         return $this->hasOne('App\Models\Role', 'id', 'i_role');
+	}
+
+	 public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }
